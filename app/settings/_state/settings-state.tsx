@@ -25,17 +25,17 @@ type Action =
   | { type: "reset" };
 
 const initialState: SettingsState = {
-  projectName: "Wayfinder Labs",
-  symbol: "WFL",
-  contract: "0x1e9d...a3f2",
-  revenueSharePct: 2,
-  boostsPerWeek: 3,
-  airdropAmountUsd: 1000,
-  inviteSlots: 5,
-  dailyCapUsd: 2000,
-  weeklyCapUsd: 9000,
-  maxSlippagePct: 1,
-  priceImpactMax: 0.75,
+  projectName: "",
+  symbol: "",
+  contract: "",
+  revenueSharePct: "",
+  boostsPerWeek: "",
+  airdropAmountUsd: "",
+  inviteSlots: "",
+  dailyCapUsd: "",
+  weeklyCapUsd: "",
+  maxSlippagePct: "",
+  priceImpactMax: "",
 };
 
 function reducer(state: SettingsState, action: Action): SettingsState {

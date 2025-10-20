@@ -20,18 +20,21 @@ export default function Page() {
   return (
     <SettingsProvider>
       <SettingsLayout
-        header="Settings"
+        header={undefined}
         sidebarActive="Settings"
         tabs={tabs}
         activeTab={activeTab}
         onTabChange={(k) => setActiveTab(k as typeof activeTab)}
-        headerContent={
-          <Tabs
-            tabs={tabs as any}
-            active={activeTab}
-            onChange={(k) => setActiveTab(k as typeof activeTab)}
-          />
-        }
+        aboveContent={
+            <div className="flex flex-col gap-2">
+              <div className="text-sm font-semibold text-white/90">Settings</div>
+              <Tabs
+                tabs={tabs as any}
+                active={activeTab}
+                onChange={(k) => setActiveTab(k as typeof activeTab)}
+              />
+            </div>
+          }
       >
         {activeTab === "general" && <General />}
         {activeTab === "how" && <HowItWorks />}

@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { ChevronsUpDown } from "lucide-react";
 
 /**
  * Minimal UI primitives to keep styles consistent.
@@ -11,12 +12,13 @@ export function Card(props: React.HTMLAttributes<HTMLDivElement>) {
   const { className = "", ...rest } = props;
   return (
     <div
-      className={`bg-[#0F1424] border border-white/10 rounded-xl ${className}`}
+      className={`bg-[#151515] border border-white/10 rounded-xl ${className}`}
       {...rest}
     />
   );
 }
 
+// button section
 export function Button({
   variant = "ghost",
   className = "",
@@ -35,19 +37,39 @@ export function Button({
 }
 
 export function Section({
-  title,
-  children,
-}: {
-  title: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="space-y-3">
-      <h3 className="text-sm font-semibold text-white/90">{title}</h3>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">{children}</div>
-    </div>
-  );
-}
+    title,
+    children,
+  }: {
+    title: string;
+    children: React.ReactNode;
+  }) {
+    const items = React.Children.toArray(children);
+    const cols = items.length || 1;
+  
+    return (
+      <div className="space-y-3 w-full">
+        {/* Section title */}
+        {title && (
+          <h3 className="text-sm font-semibold text-white/90">{title}</h3>
+        )}
+  
+        {/* Inputs (children) arranged side-by-side */}
+        <div
+          className="grid gap-3 w-full"
+          style={{
+            gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))`,
+          }}
+        >
+          {items.map((child, i) => (
+            <div key={i} className="w-full">
+              {child}
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+    
 
 export function Field({
   label,
@@ -68,49 +90,75 @@ export function Field({
 }
 
 export function Input(
-  props: React.InputHTMLAttributes<HTMLInputElement> & { mono?: boolean }
-) {
-  const { className = "", mono, ...rest } = props;
-  return (
-    <input
-      {...rest}
-      className={`w-full bg-[#0B0F1A] border border-white/10 rounded-md px-3 py-2 text-sm placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-[#0B5FFF] ${
-        mono ? "font-mono" : ""
-      } ${className}`}
-    />
-  );
-}
-
-export function NumberInput(
-  props: React.InputHTMLAttributes<HTMLInputElement> & { mono?: boolean }
-) {
-  return <Input type="number" step="any" inputMode="decimal" {...props} />;
-}
+    props: React.InputHTMLAttributes<HTMLInputElement> & { mono?: boolean }
+  ) {
+    const { className = "", mono, ...rest } = props;
+    return (
+      <input
+        {...rest}
+        className={`w-full bg-inherit text-white border border-white/30 rounded-md px-3 py-2 text-sm
+          placeholder:text-white/70 caret-white
+          focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-white/20
+          ${mono ? "font-mono" : ""} ${className}`}
+      />
+    );
+  }
+  
+  export function NumberInput(
+    props: React.InputHTMLAttributes<HTMLInputElement> & { mono?: boolean }
+  ) {
+    const { className = "", mono, ...rest } = props;
+    return (
+      <div className="relative">
+        <Input
+          type="number"
+          step="any"
+          inputMode="decimal"
+          className={`pr-8 ${className}`}
+          {...rest}
+        />
+        <div className="absolute right-2 top-1/2 transform -translate-y-1/2 pointer-events-none">
+          <ChevronsUpDown size={16} className="text-white/40" />
+        </div>
+      </div>
+    );
+  }
 
 /**
  * Lightweight tabs that manage active state in parent.
  */
 export function Tabs({
-  tabs,
-  active,
-  onChange,
-}: {
-  tabs: { key: string; label: string }[];
-  active: string;
-  onChange: (key: string) => void;
-}) {
-  return (
-    <div className="inline-flex items-center gap-2 rounded-lg bg-white/5 p-1">
-      {tabs.map((t) => (
-        <Button
-          key={t.key}
-          variant={active === t.key ? "primary" : "ghost"}
-          className={active === t.key ? "" : "text-white/80"}
-          onClick={() => onChange(t.key)}
-        >
-          {t.label}
-        </Button>
-      ))}
-    </div>
-  );
-}
+    tabs,
+    active,
+    onChange,
+  }: {
+    tabs: { key: string; label: string; icon?: React.ReactNode }[];
+    active: string;
+    onChange: (key: string) => void;
+  }) {
+    return (
+      <div className="inline-flex items-center gap-2">
+        {tabs.map((t) => {
+          const isActive = active === t.key;
+          return (
+            <button
+              key={t.key}
+              type="button"
+              onClick={() => onChange(t.key)}
+              className={[
+                "flex items-center gap-2 px-3 py-1.5 text-sm font-medium transition rounded-md border",
+                "focus:outline-none focus:ring-0",
+                isActive
+                  ? "bg-white text-black border-white/20"
+                  : "text-white/80 hover:bg-white/10 border-white/10 hover:border-white/20",
+              ].join(" ")}
+              aria-pressed={isActive}
+            >
+              {t.icon}
+              {t.label}
+            </button>
+          );
+        })}
+      </div>
+    );
+  }
