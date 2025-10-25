@@ -1,6 +1,7 @@
 "use client";
 
 import { SettingsLayout } from "./settings/_components/settings-layout";
+import { CreatorOverview } from "./_components/creator-overview";
 
 export default function HomePage() {
   return (
@@ -10,15 +11,8 @@ export default function HomePage() {
       tabs={[]}
       activeTab=""
       onTabChange={() => {}}
-      aboveContent={
-        <div className="flex flex-col gap-2">
-          <div className="text-sm font-semibold text-white/90">Creator Home</div>
-        </div>
-      }
     >
-      <div className="text-center py-8 text-white/60">
-        Welcome to Wayfinder Labs
-      </div>
+      <CreatorOverview />
     </SettingsLayout>
   );
 }

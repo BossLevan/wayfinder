@@ -6,6 +6,7 @@ type CoinRow = {
     name: string | null;
     symbol: string;
     handle: string;
+    imageUrl?: string;
     flywheels: string[];
     holders: number;
     volume24h: number;
@@ -15,14 +16,14 @@ type CoinRow = {
   
   const USE_MOCK = process.env.USE_MOCK_COINS !== "false"; // default true
   const MOCK_COINS: CoinRow[] = [
-    { address: "0x9cfa8a8b8c8d8e8f909192939495969798999a", name: "MOLLY", symbol: "$MOLLY", handle: "@ilovemolly4ever", flywheels: ["Airdrop", "RevShare"], holders: 2380, volume24h: 58200, pnl7d: 12.5, lastActivated: "Airdrop" },
-    { address: "0x1a2b3c4d5e6f7890abcdef1234567890abcdef", name: "BORED", symbol: "$BORED", handle: "@bored", flywheels: ["Buyback", "RevShare"], holders: 3020, volume24h: 76400, pnl7d: 18.2, lastActivated: "Buyback" },
-    { address: "0x7f8e9d0c1b2a3948576e5d4c3b2a1908f7e6d5c", name: "DEFI", symbol: "$DEFI", handle: "@definitive", flywheels: ["Airdrop", "Buyback"], holders: 1750, volume24h: 41700, pnl7d: 18.2, lastActivated: "RevShare" },
-    { address: "0x3c4d5e6f7890abcdef1234567890abcdef123456", name: "OXEN", symbol: "$OXEN", handle: "@Oxen", flywheels: ["Airdrop", "Buyback", "RevShare"], holders: 2110, volume24h: 48500, pnl7d: 9.3, lastActivated: "Buyback" },
-    { address: "0x5e6f7890abcdef1234567890abcdef1234567890", name: "ZORAT", symbol: "$ZORAT", handle: "@zoraterminal", flywheels: ["RevShare", "Airdrop"], holders: 4890, volume24h: 102300, pnl7d: 21.7, lastActivated: "Airdrop" },
-    { address: "0x890abcdef1234567890abcdef1234567890abcd", name: "LGHT", symbol: "$LGHT", handle: "@lght", flywheels: ["Buyback"], holders: 980, volume24h: 14800, pnl7d: -2.4, lastActivated: "RevShare" },
-    { address: "0xabcdef1234567890abcdef1234567890abcdef12", name: "GREMP", symbol: "$GREMP", handle: "@gremplin", flywheels: ["Airdrop", "RevShare"], holders: 3440, volume24h: 63900, pnl7d: 11.8, lastActivated: "Buyback" },
-    { address: "0xcdef1234567890abcdef1234567890abcdef1234", name: "WBNNS", symbol: "$WBNNS", handle: "@wbnns", flywheels: ["Buyback", "Airdrop"], holders: 1220, volume24h: 22500, pnl7d: 3.6, lastActivated: "Airdrop" },
+    { address: "0x9cfa8a8b8c8d8e8f909192939495969798999a", name: "MOLLY", symbol: "$MOLLY", handle: "@ilovemolly4ever", imageUrl: "https://picsum.photos/seed/molly/200", flywheels: ["Airdrop", "RevShare"], holders: 8, volume24h: 12, pnl7d: 99.8, lastActivated: "Airdrop" },
+    { address: "0x1a2b3c4d5e6f7890abcdef1234567890abcdef", name: "BORED", symbol: "$BORED", handle: "@bored", imageUrl: "https://picsum.photos/seed/bored/200", flywheels: ["Buyback", "RevShare"], holders: 9, volume24h: 87, pnl7d: 99.5, lastActivated: "Buyback" },
+    { address: "0x7f8e9d0c1b2a3948576e5d4c3b2a1908f7e6d5c", name: "DEFI", symbol: "$DEFI", handle: "@definitive", imageUrl: "https://picsum.photos/seed/defi/200", flywheels: ["Airdrop", "Buyback"], holders: 7, volume24h: 3, pnl7d: 99.2, lastActivated: "RevShare" },
+    { address: "0x3c4d5e6f7890abcdef1234567890abcdef123456", name: "OXEN", symbol: "$OXEN", handle: "@Oxen", imageUrl: "https://picsum.photos/seed/oxen/200", flywheels: ["Airdrop", "Buyback", "RevShare"], holders: 6, volume24h: 94, pnl7d: 99.9, lastActivated: "Buyback" },
+    { address: "0x5e6f7890abcdef1234567890abcdef1234567890", name: "ZORAT", symbol: "$ZORAT", handle: "@zoraterminal", imageUrl: "https://picsum.photos/seed/zorat/200", flywheels: ["RevShare", "Airdrop"], holders: 9, volume24h: 28, pnl7d: 100.0, lastActivated: "Airdrop" },
+    { address: "0x890abcdef1234567890abcdef1234567890abcd", name: "LGHT", symbol: "$LGHT", handle: "@lght", imageUrl: "https://picsum.photos/seed/lght/200", flywheels: ["Buyback"], holders: 5, volume24h: 61, pnl7d: 99.1, lastActivated: "RevShare" },
+    { address: "0xabcdef1234567890abcdef1234567890abcdef12", name: "GREMP", symbol: "$GREMP", handle: "@gremplin", imageUrl: "https://picsum.photos/seed/gremp/200", flywheels: ["Airdrop", "RevShare"], holders: 8, volume24h: 7, pnl7d: 99.7, lastActivated: "Buyback" },
+    { address: "0xcdef1234567890abcdef1234567890abcdef1234", name: "WBNNS", symbol: "$WBNNS", handle: "@wbnns", imageUrl: "https://picsum.photos/seed/wbnns/200", flywheels: ["Buyback", "Airdrop"], holders: 7, volume24h: 45, pnl7d: 99.4, lastActivated: "Airdrop" },
   ];
   
   export async function fetchTopCoins(): Promise<CoinRow[]> {
@@ -44,6 +45,7 @@ type CoinRow = {
               name
               symbol
               handle
+              imageUrl
               flywheels
               holders
               volume24h
@@ -74,6 +76,7 @@ type CoinRow = {
         name: e.node.name ?? null,
         symbol: e.node.symbol,
         handle: e.node.handle,
+        imageUrl: e.node.imageUrl,
         flywheels: e.node.flywheels ?? [],
         holders: Number(e.node.holders ?? 0),
         volume24h: Number(e.node.volume24h ?? 0),
